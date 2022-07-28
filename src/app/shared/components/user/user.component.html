@@ -1,0 +1,18 @@
+<div class="user-container">
+    <div class="user-header">
+        <h1>{{user.login}}</h1>
+    </div>
+    <div class="user-info-container">
+        <div class="user-photo-container">
+            <img class="user-photo-img" [src]="user.avatar_url" [alt]="user.name" />
+        </div>
+        <ul class="user-info">
+            <li class="user-info-item"><strong>Nome:</strong> {{user.name}}</li>
+            <li class="user-info-item"><strong>Localização:</strong> {{user.location}}</li>
+            <li class="user-info-item"><strong>Descrição:</strong> {{user.bio}}</li>
+            <li class="user-info-item"><strong>Seguidores:</strong> {{user.followers}}</li>
+            <li class="user-info-item"><strong>Seguindo:</strong> {{user.following}}</li>
+        </ul>
+    </div>
+    
+</div>

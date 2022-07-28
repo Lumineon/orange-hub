@@ -1,0 +1,10 @@
+header {
+    background-color: #EC7000;
+    margin-bottom: 50px;
+}
+
+.header-logo {
+  width: 250px;
+  text-align: center;
+  margin: 10px 0 10px 30px;
+}

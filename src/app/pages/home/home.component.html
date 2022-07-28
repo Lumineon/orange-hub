@@ -1,0 +1,16 @@
+<div class="home-container">
+    <div class="home-form-container">
+        <form (ngSubmit)="searchGithubUser()">
+            <div class="home-search-container">
+                <label for="homeSearch" class="home-search-label">Buscar usuário no GitHub: </label>
+                <input [(ngModel)]="homeSearch" name="homeSearch" type="text" class="home-search-input">
+            </div>
+            <app-button text="Buscar"></app-button>
+        </form>
+        
+        <!-- <app-error *ngIf="error"></app-error> -->
+    </div>
+    <div class="home-user-container">
+        <app-user *ngIf="user" [user]="user"></app-user>
+    </div>
+</div>
