@@ -8,10 +8,12 @@ import { User } from 'src/app/core/models/user';
 })
 export class UserComponent implements OnInit {
   @Input() user!: User;
+  @Input() stars!: Array<Object>;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.stars)
   }
 
 }

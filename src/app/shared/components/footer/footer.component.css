@@ -1,7 +1,10 @@
 footer {
     margin-top: 40px;
     padding: 10px;
-    background-color: #EC7000;
+    background-color: var(--orange);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: 100%;
 }
 
 .footer-text {

@@ -1,0 +1,24 @@
+<div class="repository-container">
+    <div class="repository-owner-container" *ngIf="owner">
+        <h1>Repositórios de {{owner}}</h1>
+    </div>
+    <!-- <button (click)="orderBy('asc')">asc</button>
+    <button (click)="orderBy('desc')">desc</button> -->
+    <div class="repository-info-container" *ngFor="let repo of repo">
+        <div class="repository-left-info">
+            <div class="repository-name">
+                <h2>{{repo.name}}</h2>
+            </div>
+            <div class="repository-info">
+                <p *ngIf="repo.description !== null">
+                    {{repo.description}}
+                </p>
+                <p class="repository-created">Criado em: {{repo.created_at | date }}</p>
+            </div>
+        </div>
+        <div class="repository-numbers">
+            <span class="repository-forks">Forks: {{repo.forks_count}}</span>
+            <span class="repository-stars">Estrelas: {{repo.watchers_count}}</span>
+        </div>
+    </div>
+</div>

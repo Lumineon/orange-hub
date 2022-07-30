@@ -1,10 +1,33 @@
-header {
-    background-color: #EC7000;
+@media only screen and (min-width: 768px) {
+  header {
+    display: flex;
     margin-bottom: 50px;
+    background-color: var(--orange);
+  }
+
+  .header-logo {
+    display: flex;
+    width: 250px;
+    text-align: center;
+    margin: 10px 0 10px 30px;
+  }
 }
 
-.header-logo {
-  width: 250px;
-  text-align: center;
-  margin: 10px 0 10px 30px;
+@media only screen and (max-width: 768px) { 
+  header {
+    margin-bottom: 20px;
+    background-color: var(--orange);
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-logo {
+    display: flex;
+    width: 220px;
+    padding: 21px;
+  }
 }

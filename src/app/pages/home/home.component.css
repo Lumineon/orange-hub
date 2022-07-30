@@ -1,32 +1,103 @@
-.home-container {
-    min-height: 800px;
+@media only screen and (min-width: 768px) {
+    .home-container {
+        min-height: 100vh;
+    }
+
+    .home-form-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .home-form-container > form {
+        display: flex;
+        width: 71%;
+        align-items: flex-end;
+    }
+
+    .home-search-label {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .home-search-container {
+        margin-right: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home-search-input {
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .home-user-repositories-link{
+        margin-top: 57px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .home-user-repositories-link > a{
+        text-align: center;
+        padding: 10px;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #EC7000;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+    }
 }
 
-.home-form-container {
-    display: flex;
-    justify-content: center;
-}
+@media only screen and (max-width: 768px) {
+    .home-container {
+        min-height: 100vh;
+    }
 
-.home-form-container > form {
-    width: 50%;
-    display: flex;
-    align-items: flex-end;
-}
+    .home-search-label {
+        text-align: center;
+        font-size: 18px;
+    }
 
-.home-search-label {
-    font-size: 20px;
-    font-weight: bold;
-}
+    .home-search-input {
+        padding: 5px;
+        margin-top: 11px;
+        margin-bottom: 20px;
+    }
 
-.home-search-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-right: 10px;
-}
+    .home-search-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+    }
 
-.home-search-input {
-    padding: 10px;
-    margin-top: 10px;
-}
+    .home-form-container > form {
+        display: flex;
+        margin: 0 30px;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+    }
 
+    .home-user-repositories-link{
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .home-user-repositories-link > a{
+        text-align: center;
+        padding: 10px;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--orange);
+        color: var(--white);
+        text-decoration: none;
+        font-weight: bold;
+    }
+}

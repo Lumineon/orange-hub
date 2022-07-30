@@ -15,26 +15,15 @@ export class UserService {
 
   getUsers(userName: string): Observable<User> {
     const url = `${this.gitUrl}/users/${userName}`
-    // const url = `${this.gitUrl}/search/users?q=${userName}`
     return this.http.get<User>(url).pipe(
       map((response: any) => response)
     );
-    // .pipe(catchError(this.handleError('fetch users', [])))
-    // .pipe(map((res: any) => res));
   }
-
-  // sortUsers(order: number) {
-//   if (this.users){
-//     this.users.sort((a : User, b : User) => {
-//       try {
-//         return order * a.name.localeCompare(b.name);
-//       }
-//       catch(error) {
-//         return -1;
-//       }
-//     });
-
-//     this.usersSubject.next(this.users);
-//   }
-// }
+  
+  getStars(userName: string): Observable<Array<Object>> {
+    const url = `${this.gitUrl}/users/${userName}/starred`
+    return this.http.get<Array<Object>>(url).pipe(
+      map((response: any) => response)
+    );
+  }
 }

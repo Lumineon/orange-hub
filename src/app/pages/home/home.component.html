@@ -1,6 +1,6 @@
 <div class="home-container">
     <div class="home-form-container">
-        <form (ngSubmit)="searchGithubUser()">
+        <form (ngSubmit)="searchUser()">
             <div class="home-search-container">
                 <label for="homeSearch" class="home-search-label">Buscar usuário no GitHub: </label>
                 <input [(ngModel)]="homeSearch" name="homeSearch" type="text" class="home-search-input">
@@ -11,6 +11,9 @@
         <!-- <app-error *ngIf="error"></app-error> -->
     </div>
     <div class="home-user-container">
-        <app-user *ngIf="user" [user]="user"></app-user>
+        <app-user *ngIf="user" [user]="user" [stars]="stars"></app-user>
+        <div class="home-user-repositories-link">
+            <a *ngIf="repo" routerLink="/repository-results" [state]="{data: {repo}}">Ir para página de repositórios</a>
+        </div>
     </div>
 </div>
