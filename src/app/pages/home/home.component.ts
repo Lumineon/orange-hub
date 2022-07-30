@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { User } from 'src/app/core/models/user';
 import { UserService } from '../../core/services/user/user.service'
 import { Repository } from 'src/app/core/models/repository';
@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   user!: User;
-  @Output() homeSearch!: string;
-  // @Output() loadRepos()
+  @Output() search!: string;
   stars!: Array<Object>;
   repo!: Repository;
+  @Output() isEmpty: boolean = false;
 
   constructor(private userService : UserService, private repositoryService : RepositoryService) { }
   ngOnInit(): void {
@@ -24,18 +24,24 @@ export class HomeComponent implements OnInit {
   }
 
   searchUser () {
-    this.userService.getUsers(this.homeSearch).subscribe(users => {
-      this.user = users;
-    })
-
-    this.userService.getStars(this.homeSearch).subscribe(stars => {
-      this.stars = stars;
-    })
-    
-    //carregar quando ir pra outra pagina
-    this.repositoryService.getRepository(this.homeSearch).subscribe(repos => {
-      this.repo = repos;
-    })
+    if (this.search) {
+      this.isEmpty = false
+      console.log('nao vazio', this.isEmpty)
+      this.userService.getUser(this.search).subscribe(users => {
+        this.user = users;
+      })
+  
+      this.userService.getStars(this.search).subscribe(stars => {
+        this.stars = stars;
+      })
+      
+      //carregar quando ir pra outra pagina
+      this.repositoryService.getRepository(this.search).subscribe(repos => {
+        this.repo = repos;
+      })
+    } else {
+      this.isEmpty = true
+    }
   }
 }
 

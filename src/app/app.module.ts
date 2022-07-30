@@ -15,6 +15,8 @@ import { ButtonComponent } from './shared/components/button/button.component';
 import { UserComponent } from './shared/components/user/user.component';
 import { RepositoryResultsComponent } from './pages/repository-results/repository-results.component';
 import { OrderbyPipe } from './shared/pipes/orderby.pipe';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NotificationComponent } from './shared/components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { OrderbyPipe } from './shared/pipes/orderby.pipe';
     ButtonComponent,
     UserComponent,
     RepositoryResultsComponent,
-    OrderbyPipe
+    OrderbyPipe,
+    NotFoundComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
