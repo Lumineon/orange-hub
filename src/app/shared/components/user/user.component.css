@@ -49,6 +49,7 @@
     .user-info {
         border: 1px solid var(--gray);
         border-radius: 3px;
+        width: 100%;
     }
 
     .user-info-item {
@@ -70,7 +71,6 @@
     
     .user-container {
         margin-top: 35px;
-        display: flex;
         justify-content: center;
         padding-bottom: 45px;
     }
@@ -80,6 +80,7 @@
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
 
     .user-header {
@@ -100,6 +101,10 @@
         width: 200px;
         height: 200px;
         border-radius: 50%;
+    }
+
+    .user-info-container{
+        width: 95%;
     }
 
     .user-info {

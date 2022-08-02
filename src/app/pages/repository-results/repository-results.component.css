@@ -1,8 +1,51 @@
 @media only screen and (min-width: 768px) {
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+    
     .repository-container {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .repository-error-container{
+        font-size: 25px;
+    }
+
+    .repository-owner-container{
+        margin-bottom: 20px;
+        display: flex;
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .repository-orderby-container {
+        position: absolute;
+        right: 15%;
+        display: flex;
+        align-items: center;
+    }
+
+    .repository-orderby {
+        width: 75px;
+        border: none;
+        cursor: pointer;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .repository-orderby-container > span {
+        margin-right: 15px;
+    }
+
+    .repository-orderby-icon{
+        background: white;
+        display: inline-block;
     }
 
     .repository-info-container {
@@ -26,8 +69,9 @@
         margin-bottom: 10px;
     }
 
-    .repository-owner-container{
-        margin-bottom: 20px;
+    .repository-created {
+        font-style: italic;
+        color: var(--white);
     }
 
     .repository-forks {
@@ -47,9 +91,43 @@
         align-items: center;
     }
 
+    .repository-error-container{
+        font-size: 18px;
+    }
+
     .repository-owner-container{
         margin-bottom: 20px;
-        text-align: center;
+        display: flex;
+        position: relative;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .repository-orderby-container {
+        position: absolute;
+        right: 15%;
+        display: flex;
+        align-items: center;
+    }
+
+    .repository-orderby-container > span {
+        margin-right: 15px;
+    }
+
+    .repository-orderby {
+        width: 75px;
+        border: none;
+        cursor: pointer;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .repository-orderby-icon{
+        background: white;
+        display: inline-block;
     }
 
     .repository-info-container {

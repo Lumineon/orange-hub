@@ -4,6 +4,7 @@
     --orange: #EC7000;
     --white: #ffffff;
     --gray: #777777;
+    --red: #D50030;
   }
 
 * {
@@ -18,4 +19,12 @@ body {
 
 li {
     list-style: none;
+}
+
+.error {
+    color: var(--red)
+}
+
+.loading {
+    background-color: white;
 }

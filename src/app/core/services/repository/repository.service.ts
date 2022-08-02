@@ -13,9 +13,9 @@ export class RepositoryService {
 
   gitUrl = 'https://api.github.com';
 
-  getRepository(userName: string): Observable<Repository> {
+  getRepository(userName: string): Observable<Array<Repository>> {
     const url = `${this.gitUrl}/users/${userName}/repos?per_page=65`
-    return this.http.get<Repository>(url).pipe(
+    return this.http.get<Array<Repository>>(url).pipe(
       map((response: any) => response)
     );
   }

@@ -9,18 +9,23 @@
                 type="text" 
                 class="home-search-input" 
                 placeholder="Digite o nome do usuário" >
-                <p [ngClass]="isEmpty ? 'error-message' : 'home-warning'"><small>Preencha o campo de busca!</small></p>
+                <p class="home-warning" *ngIf="isEmpty"><small>Preencha o campo de busca!</small></p>
             </div>
             <app-button text="Buscar"></app-button>
         </form>
-       
+
+        <app-loading *ngIf="loading"></app-loading>
+ 
+        <div class="home-search-error-container error" *ngIf="error">
+            <strong>Erro! </strong> {{errorMessage}}
+        </div>
         
         <app-notification></app-notification>
     </div>
     <div class="home-user-container">
         <app-user *ngIf="user" [user]="user" [stars]="stars"></app-user>
         <div class="home-user-repositories-link">
-            <a *ngIf="repo && user" routerLink="/repository-results" [state]="{data: {repo}}">Ir para página de repositórios</a>
+            <a *ngIf="user" routerLink="repository-results" [state]="{search}">Ir para página de repositórios</a>
         </div>
     </div>
 </div>

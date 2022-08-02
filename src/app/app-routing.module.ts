@@ -7,8 +7,13 @@ import { RepositoryResultsComponent } from './pages/repository-results/repositor
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'repository-results', component: RepositoryResultsComponent },
-  { path: '**', component: NotFoundComponent }
+  // { path: '**', component: NotFoundComponent },
+  { 
+    path: 'repository-results', 
+    loadChildren: () => 
+    import('./pages/repository-results/repository-results.module')
+    .then(m => m.RepositoryResultsModule)
+  }
 ];
 
 @NgModule({

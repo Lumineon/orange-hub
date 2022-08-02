@@ -2,8 +2,6 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { User } from 'src/app/core/models/user';
 import { UserService } from '../../core/services/user/user.service'
 import { Repository } from 'src/app/core/models/repository';
-import { RepositoryService } from 'src/app/core/services/repository/repository.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,29 +14,59 @@ export class HomeComponent implements OnInit {
   stars!: Array<Object>;
   repo!: Repository;
   @Output() isEmpty: boolean = false;
+  errorMessage: string = '';
+  loading!: boolean;
+  error: boolean = false;
+  starsError: boolean = false;
 
-  constructor(private userService : UserService, private repositoryService : RepositoryService) { }
+  constructor(private userService : UserService) { }
   ngOnInit(): void {
     // this.retrievedData = localStorage.getItem('name-data')
     // this.httpService.repoRequest(this.retrievedData)
   }
 
   searchUser () {
+    this.loading = true;
     if (this.search) {
       this.isEmpty = false
-      console.log('nao vazio', this.isEmpty)
-      this.userService.getUser(this.search).subscribe(users => {
-        this.user = users;
-      })
-  
-      this.userService.getStars(this.search).subscribe(stars => {
-        this.stars = stars;
-      })
-      
+      this.userService.getUser(this.search).subscribe({
+        next: (users: any)  => {            
+          if (users) {       
+            this.error = false;
+            this.user = users;
+            this.userService.getStars(this.search).subscribe({
+              next: (stars: any)  => {            
+                if (stars) { 
+                  this.starsError = false;        
+                  this.stars = stars;
+                }
+              },
+              error: (error:any) => {
+                this.starsError = true
+                this.errorMessage = error;
+              }
+            });
+          }
+        },
+        error: (error:any) => {
+          if (error.status === 404){
+            this.error = true;
+            this.errorMessage = 'Usuário não encontrado.';
+          } else {
+            this.errorMessage = error.message
+          }
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });   
+
       //carregar quando ir pra outra pagina
-      this.repositoryService.getRepository(this.search).subscribe(repos => {
-        this.repo = repos;
-      })
+      // this.repositoryService.getRepository(this.search).subscribe(repos => {
+      //   this.repo = repos;
+      // })
+
     } else {
       this.isEmpty = true
     }

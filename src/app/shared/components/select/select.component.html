@@ -1,0 +1,12 @@
+<form>
+    <label for="orderBy">{{ label }}</label>
+    <select 
+      name="orderBy"
+      class="form-control"
+      [ngModel]="selectedIndex" (ngModelChange)="valueChanged($event)"
+    >
+        <option *ngFor="let option of options" [value]="option.value">
+            {{ option.name }}
+        </option>
+    </select>
+</form>

@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';  
 import { UserService } from './core/services/user/user.service';
 import { RepositoryService } from './core/services/repository/repository.service';
-import { HttpClientModule } from '@angular/common/http';
-import { OrderModule } from 'ngx-order-pipe';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { DatePipe } from '@angular/common';
+import { LoadingModule } from './shared/components/loading/loading.module';
+import { ErrorCatchingInterceptor } from './core/interceptors/error-catching.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,10 +16,10 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { UserComponent } from './shared/components/user/user.component';
-import { RepositoryResultsComponent } from './pages/repository-results/repository-results.component';
-import { OrderbyPipe } from './shared/pipes/orderby.pipe';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NotificationComponent } from './shared/components/notification/notification.component';
+
+
 
 @NgModule({
   declarations: [
@@ -26,8 +29,6 @@ import { NotificationComponent } from './shared/components/notification/notifica
     FooterComponent,
     ButtonComponent,
     UserComponent,
-    RepositoryResultsComponent,
-    OrderbyPipe,
     NotFoundComponent,
     NotificationComponent
   ],
@@ -35,9 +36,15 @@ import { NotificationComponent } from './shared/components/notification/notifica
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    LoadingModule
   ],
-  providers: [UserService, RepositoryService],
+  providers: [UserService, 
+    RepositoryService, 
+    DatePipe,
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorCatchingInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

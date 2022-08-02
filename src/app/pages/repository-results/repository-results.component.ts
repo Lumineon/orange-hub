@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { OrderbyPipe } from 'src/app/shared/pipes/orderby.pipe';
 import { Repository } from 'src/app/core/models/repository';
+import { SortService } from 'src/app/core/services/sort/sort.service';
+import { FormControl } from '@angular/forms';
+import { Option } from 'src/app/core/models/options';
 import { RepositoryService } from 'src/app/core/services/repository/repository.service';
 
 @Component({
@@ -9,22 +11,64 @@ import { RepositoryService } from 'src/app/core/services/repository/repository.s
   styleUrls: ['./repository-results.component.css']
 })
 export class RepositoryResultsComponent implements OnInit {
-  repo!: any;
+  repo!: Array<Repository>;
   name!: string;
-  owner!: any;
-  orderbyPipe!: OrderbyPipe;
+  owner!: string;
+  options!: Option[];
+  error: boolean = false;
+  errorMessage: string = '';
+  loading: boolean = true;
+  @Input() search!: string;
+  @Input() data!: any;
 
-  constructor() { }
+  selectControl = new FormControl('nameAsc');
+
+  constructor(private func: SortService, private repositoryService : RepositoryService) { }
 
   ngOnInit(): void {
-    this.repo = history.state.data?.repo
-    this.owner = history.state.data?.repo[0]?.owner.login
-    // this.name = history.state.data?.repo.name.push()
-    console.log(this.repo,this.name)
+    this.options = [
+      { value: 'nameAsc', name: 'Nome do repositório (A-Z)' },
+      { value: 'nameDesc', name: 'Nome do repositório (Z-A)' },
+      { value: 'starsDesc', name: 'Mais estrelas' },
+      { value: 'starsAsc', name: 'Menos estrelas' }
+    ];
+
+    if (history.state.search) {
+      this.repositoryService.getRepository(history.state.search).subscribe({
+        next: (repo: any)  => {            
+          if (repo.length > 0) { 
+            this.error = false;        
+            this.repo = repo;
+          } else {
+            this.error = true;  
+            this.errorMessage = 'Usuário não possui nenhum repositório!';
+          }
+        },
+        error: (error:any) => {
+          this.error = true
+          this.errorMessage = error;
+        },
+        complete: () => {
+          this.loading = false
+        }
+      });
+    }
   }
 
-  orderBy(order: []){
-    console.log(this.orderbyPipe)
-    this.repo = this.orderbyPipe.transform(this.repo, order); 
+  orderBy(value: string){
+    switch (value) {
+      case 'nameDesc':
+        this.func.sortDataPerName(this.repo, false)
+      break;
+      case 'nameAsc':
+        this.func.sortDataPerName(this.repo, true)
+      break;
+      case 'starsDesc':
+        this.func.sortDataPerStars(this.repo, false)
+      break;
+      case 'starsAsc':
+        this.func.sortDataPerStars(this.repo, true)
+      break;
+   }
   }
 }
