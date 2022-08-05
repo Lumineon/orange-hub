@@ -11,7 +11,7 @@
                 placeholder="Digite o nome do usuário" >
                 <p class="home-warning" *ngIf="isEmpty"><small>Preencha o campo de busca!</small></p>
             </div>
-            <app-button text="Buscar"></app-button>
+            <app-button class="home-button" text="Buscar"></app-button>
         </form>
 
         <app-loading *ngIf="loading"></app-loading>
@@ -19,8 +19,6 @@
         <div class="home-search-error-container error" *ngIf="error">
             <strong>Erro! </strong> {{errorMessage}}
         </div>
-        
-        <app-notification></app-notification>
     </div>
     <div class="home-user-container">
         <app-user *ngIf="user" [user]="user" [stars]="stars"></app-user>

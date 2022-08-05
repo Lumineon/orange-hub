@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { User } from 'src/app/core/models/user';
 import { UserService } from '../../core/services/user/user.service'
-import { Repository } from 'src/app/core/models/repository';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +9,8 @@ import { Repository } from 'src/app/core/models/repository';
 })
 export class HomeComponent implements OnInit {
   user!: User;
-  @Output() search!: string;
+  search: string = '';
   stars!: Array<Object>;
-  repo!: Repository;
   @Output() isEmpty: boolean = false;
   errorMessage: string = '';
   loading!: boolean;
@@ -34,18 +32,7 @@ export class HomeComponent implements OnInit {
           if (users) {       
             this.error = false;
             this.user = users;
-            this.userService.getStars(this.search).subscribe({
-              next: (stars: any)  => {            
-                if (stars) { 
-                  this.starsError = false;        
-                  this.stars = stars;
-                }
-              },
-              error: (error:any) => {
-                this.starsError = true
-                this.errorMessage = error;
-              }
-            });
+            this.getStars();
           }
         },
         error: (error:any) => {
@@ -62,14 +49,23 @@ export class HomeComponent implements OnInit {
         }
       });   
 
-      //carregar quando ir pra outra pagina
-      // this.repositoryService.getRepository(this.search).subscribe(repos => {
-      //   this.repo = repos;
-      // })
-
     } else {
       this.isEmpty = true
     }
+  }
+  getStars(){
+    this.userService.getStars(this.search).subscribe({
+      next: (stars: any)  => {            
+        if (stars) { 
+          this.starsError = false;        
+          this.stars = stars;
+        }
+      },
+      error: (error:any) => {
+        this.starsError = true
+        this.errorMessage = error;
+      }
+    });
   }
 }
 

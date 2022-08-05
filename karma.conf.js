@@ -38,6 +38,10 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    browserConsoleLogOptions: {
+      terminal: true,
+      level: ""
+  },
     singleRun: false,
     restartOnFileChange: true
   });

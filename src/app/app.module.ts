@@ -17,7 +17,6 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { UserComponent } from './shared/components/user/user.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { NotificationComponent } from './shared/components/notification/notification.component';
 
 
 
@@ -29,8 +28,7 @@ import { NotificationComponent } from './shared/components/notification/notifica
     FooterComponent,
     ButtonComponent,
     UserComponent,
-    NotFoundComponent,
-    NotificationComponent
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

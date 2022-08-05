@@ -18,8 +18,8 @@ export class RepositoryResultsComponent implements OnInit {
   error: boolean = false;
   errorMessage: string = '';
   loading: boolean = true;
-  @Input() search!: string;
-  @Input() data!: any;
+  search!: string;
+  data!: any;
 
   selectControl = new FormControl('nameAsc');
 
@@ -32,7 +32,7 @@ export class RepositoryResultsComponent implements OnInit {
       { value: 'starsDesc', name: 'Mais estrelas' },
       { value: 'starsAsc', name: 'Menos estrelas' }
     ];
-
+    	
     if (history.state.search) {
       this.repositoryService.getRepository(history.state.search).subscribe({
         next: (repo: any)  => {            
