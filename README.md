@@ -43,7 +43,7 @@ Se tudo ocorreu bem, você poderá ver a aplicação rodando em http://localhost
 
 ## Testes
 #### Unitários
-* Para rodar os testes unitários via [Karma](https://karma-runner.github.io) use `npm start` ou `ng test`
+* Para rodar os testes unitários via [Karma](https://karma-runner.github.io) use `npm run test` ou `ng test`
 Isso abrirá uma janela do seu navegador com o [Karma](https://karma-runner.github.io) e ele executará os testes unitários que foram criados.
 > Os testes unitários estão localizados dentro de cada componente do projeto. São marcados com a extensão `.spec.ts` e os resultados dos testes ficam disponíveis na própria janela do Karma.
 
