@@ -1,21 +1,9 @@
-import { TestBed, async, getTestBed } from '@angular/core/testing';
+import { TestBed, getTestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
-import { Repository } from '../../models/repository';
-
+import { mockResponse } from '../../mocks/repository-service/repositoriesMock'
 import { RepositoryService } from './repository.service';
-
-const mockResponse: Repository[] = [
-  {
-    name: "app-ideas",
-    description: "A Collection of application ideas which can be used to improve your coding skills.",
-    created_at: "2021-05-28T14:07:44Z",
-    forks_count: 0,
-    watchers_count: 0,
-    owner: {}
-  }
-]
 
 describe('RepositoryService', () => {
   let injector: TestBed;
@@ -23,7 +11,7 @@ describe('RepositoryService', () => {
   let service: RepositoryService;
   let httpMock: HttpTestingController;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: []
@@ -52,23 +40,23 @@ describe('RepositoryService', () => {
     httpMock.verify();
   });
 
-  // it(`Should return error`, () => {
-  //   const userSearch = 'zxczxcxzcz';
-  //   const params = {userSearch}; 
-  //   let response: any;
-  //   let errResponse: any;
+  it(`should return an error when the server returns a 404`, (done: DoneFn) => {
+    const userSearch = 'zxczxcxzcz';
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
 
-  //   spyOn(httpClient,'get').and.returnValue(throwError(() => new Error()));
+    spyOn(httpClient,'get').and.returnValue(throwError(() => errorResponse));
 
-  //   service.getUser('zxczxcxzcz').subscribe(() => {}, (err) => {
-  //     response = err
-  //   });
-
-  //   const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
-  //   const data = '404 Http failure response for https://api.github.com/users/zxczxczxczxczxcxz: 404 OK';
-  //   service.getUser('zxczxcxzcz').subscribe(res => response = res, err => errResponse = err);
-  //   httpMock.expectNone(`https://api.github.com/users/${userSearch}`)
-  //   expect(errResponse).toBe(data);
-  // });
+    service.getRepository(userSearch).subscribe({
+      next: repos => done.fail('expected an error, not heroes'),
+      error: error  => {
+        expect(error.message).toContain(`404 Not Found`);
+        done();
+      }
+    });
+    httpMock.expectNone(`https://api.github.com/users/${userSearch}/repos`)
+  });
 
 });

@@ -8,7 +8,7 @@ import { User } from 'src/app/core/models/user';
 })
 export class UserComponent implements OnInit {
   @Input() user!: User;
-  @Input() stars!: Array<Object>;
+  @Input() stars!: number;
 
   constructor() { }
 

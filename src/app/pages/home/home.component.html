@@ -11,17 +11,16 @@
                 placeholder="Digite o nome do usuário" >
                 <p class="home-warning" *ngIf="isEmpty"><small>Preencha o campo de busca!</small></p>
             </div>
-            <app-button class="home-button" text="Buscar"></app-button>
+            <input type="submit" class="home-button" value="Buscar">
         </form>
 
         <app-loading *ngIf="loading"></app-loading>
  
         <div class="home-search-error-container error" *ngIf="error">
-            <strong>Erro! </strong> {{errorMessage}}
-        </div>
+            <strong>Erro! </strong>{{errorMessage}}</div>
     </div>
     <div class="home-user-container">
-        <app-user *ngIf="user" [user]="user" [stars]="stars"></app-user>
+        <app-user class="home-user-info" *ngIf="user" [user]="user" [stars]="stars"></app-user>
         <div class="home-user-repositories-link">
             <a *ngIf="user" routerLink="repository-results" [state]="{search}">Ir para página de repositórios</a>
         </div>

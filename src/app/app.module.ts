@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  
 import { UserService } from './core/services/user/user.service';
 import { RepositoryService } from './core/services/repository/repository.service';
+import { LocalStorageService } from './core/services/local-storage/local-storage.service'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { DatePipe } from '@angular/common';
@@ -14,11 +15,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
-import { ButtonComponent } from './shared/components/button/button.component';
 import { UserComponent } from './shared/components/user/user.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-
-
 
 @NgModule({
   declarations: [
@@ -26,9 +23,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    ButtonComponent,
-    UserComponent,
-    NotFoundComponent
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +36,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
   providers: [UserService, 
     RepositoryService, 
     DatePipe,
+    LocalStorageService,
     {provide: HTTP_INTERCEPTORS, useClass: ErrorCatchingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

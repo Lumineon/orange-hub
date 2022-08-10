@@ -1,32 +1,9 @@
 import { TestBed, async, getTestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
-
-const mockResponse = {
-  login: "Lumineon",
-  id: 46164268,
-  avatar_url: "https://avatars.githubusercontent.com/u/46164268?v=4",
-  name: "Milena Franco",
-  location: "São Paulo, Brazil",
-  bio: "Front end developer and games enthusiast. Always searching solutions for my problems and always curious about new stuff ",
-  followers: 12,
-  following: 5,
-};
-
-const starsMockResponse = [{
-  id: 201570219,
-  node_id: "MDEwOlJlcG9zaXRvcnkyMDE1NzAyMTk=",
-  name: "responsively-app",
-  full_name: "responsively-org/responsively-app",
-},
-{
-  id: 54346799,
-  node_id: "MDEwOlJlcG9zaXRvcnk1NDM0Njc5OQ==",
-  name: "public-apis",
-  full_name: "public-apis/public-apis",
-}]
+import { mockResponse, starsMockResponse } from '../../mocks/user-service/userMock'
 
 describe('UserService', () => {
   let injector: TestBed;
@@ -74,22 +51,41 @@ describe('UserService', () => {
     httpMock.verify();
   });
 
-  // it(`Should return error`, () => {
-  //   const userSearch = 'zxczxcxzcz';
-  //   const params = {userSearch}; 
-  //   let response: any;
-  //   let errResponse: any;
+  it(`should return an error when the server returns a 404 on user request`, (done: DoneFn) => {
+    const userSearch = 'zxczxcxzcz';
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
 
-  //   spyOn(httpClient,'get').and.returnValue(throwError(() => new Error()));
+    spyOn(httpClient,'get').and.returnValue(throwError(() => errorResponse));
 
-  //   service.getUser('zxczxcxzcz').subscribe(() => {}, (err) => {
-  //     response = err
-  //   });
+    service.getUser(userSearch).subscribe({
+      next: users => done.fail('expected an error, not heroes'),
+      error: error  => {
+        expect(error.message).toContain('404 Not Found');
+        done();
+      }
+    });
+    httpMock.expectNone(`https://api.github.com/users/${userSearch}`)
+  });
 
-  //   const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
-  //   const data = '404 Http failure response for https://api.github.com/users/zxczxczxczxczxcxz: 404 OK';
-  //   service.getUser('zxczxcxzcz').subscribe(res => response = res, err => errResponse = err);
-  //   httpMock.expectNone(`https://api.github.com/users/${userSearch}`)
-  //   expect(errResponse).toBe(data);
-  // });
+  it(`should return an error when the server returns a 404 on stars request`, (done: DoneFn) => {
+    const userSearch = 'zxczxcxzcz';
+    const errorResponse = new HttpErrorResponse({
+      error: 'test 404 error',
+      status: 404, statusText: 'Not Found'
+    });
+
+    spyOn(httpClient,'get').and.returnValue(throwError(() => errorResponse));
+
+    service.getStars(userSearch).subscribe({
+      next: users => done.fail('expected an error, not heroes'),
+      error: error  => {
+        expect(error.message).toContain('404 Not Found');
+        done();
+      }
+    });
+    httpMock.expectNone(`https://api.github.com/users/${userSearch}/starred`)
+  });
 });

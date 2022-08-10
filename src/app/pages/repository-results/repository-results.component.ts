@@ -4,6 +4,7 @@ import { SortService } from 'src/app/core/services/sort/sort.service';
 import { FormControl } from '@angular/forms';
 import { Option } from 'src/app/core/models/options';
 import { RepositoryService } from 'src/app/core/services/repository/repository.service';
+import { LocalStorageService } from '../../core/services/local-storage/local-storage.service'
 
 @Component({
   selector: 'app-repository-results',
@@ -23,7 +24,7 @@ export class RepositoryResultsComponent implements OnInit {
 
   selectControl = new FormControl('nameAsc');
 
-  constructor(private func: SortService, private repositoryService : RepositoryService) { }
+  constructor(private func: SortService, private repositoryService : RepositoryService, private storageService: LocalStorageService) { }
 
   ngOnInit(): void {
     this.options = [
@@ -34,24 +35,29 @@ export class RepositoryResultsComponent implements OnInit {
     ];
     	
     if (history.state.search) {
-      this.repositoryService.getRepository(history.state.search).subscribe({
-        next: (repo: any)  => {            
-          if (repo.length > 0) { 
-            this.error = false;        
-            this.repo = repo;
-          } else {
-            this.error = true;  
-            this.errorMessage = 'Usuário não possui nenhum repositório!';
+        this.repositoryService.getRepository(history.state.search).subscribe({
+          next: (repo: any)  => {            
+            if (repo.length > 0) { 
+              this.loading = false;
+              this.error = false;        
+              this.repo = repo;
+            } else {
+              this.error = true;  
+              this.errorMessage = 'Usuário não possui nenhum repositório!';
+            }
+          },
+          error: (error:any) => {
+            this.error = true;
+            if (error.status === 0){
+              this.errorMessage = 'Problemas na conexão! Cheque sua conexão à internet e tente novamente'
+            } else {
+              this.errorMessage = error;
+            }
+          },
+          complete: () => {
+            this.loading = false
           }
-        },
-        error: (error:any) => {
-          this.error = true
-          this.errorMessage = error;
-        },
-        complete: () => {
-          this.loading = false
-        }
-      });
+        });
     }
   }
 

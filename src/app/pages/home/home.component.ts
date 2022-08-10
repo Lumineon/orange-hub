@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/core/models/user';
 import { UserService } from '../../core/services/user/user.service'
+import { LocalStorageService } from '../../core/services/local-storage/local-storage.service'
 
 @Component({
   selector: 'app-home',
@@ -10,67 +11,71 @@ import { UserService } from '../../core/services/user/user.service'
 export class HomeComponent implements OnInit {
   user!: User;
   search: string = '';
-  stars!: Array<Object>;
-  @Output() isEmpty: boolean = false;
+  stars!: number;
+  isEmpty: boolean = false;
   errorMessage: string = '';
   loading!: boolean;
   error: boolean = false;
-  starsError: boolean = false;
 
-  constructor(private userService : UserService) { }
+  constructor(private userService : UserService, private storageService: LocalStorageService) { }
   ngOnInit(): void {
-    // this.retrievedData = localStorage.getItem('name-data')
-    // this.httpService.repoRequest(this.retrievedData)
   }
 
   searchUser () {
-    this.loading = true;
     if (this.search) {
+      this.loading = true;
       this.isEmpty = false
-      this.userService.getUser(this.search).subscribe({
-        next: (users: any)  => {            
-          if (users) {       
-            this.error = false;
-            this.user = users;
-            this.getStars();
-          }
-        },
-        error: (error:any) => {
-          if (error.status === 404){
+      const localStorageUserData = this.storageService.getData(this.search)
+      if (Object.keys(localStorageUserData).length > 0) {
+        const localStorageStarsData = this.storageService.getData(localStorageUserData.id)
+        this.loading = false;
+        this.user = localStorageUserData;
+        this.stars = localStorageStarsData
+        this.error = false;
+      } else {
+        this.userService.getUser(this.search).subscribe({
+          next: (users: any)  => {            
+            if (users) {       
+              this.error = false;
+              this.user = users;
+              this.getStars();
+            }
+          },
+          error: (error:any) => {
             this.error = true;
-            this.errorMessage = 'Usuário não encontrado.';
-          } else {
-            this.errorMessage = error.message
+            if (error.status === 404){
+              this.errorMessage = 'Usuário não encontrado.';
+            } else if (error.status === 0){
+              this.errorMessage = 'Problemas na conexão! Cheque sua conexão à internet e tente novamente'
+            } else {
+              this.errorMessage = error.message
+            }
+            this.loading = false;
+          },
+          complete: () => {
+            this.loading = false;
           }
-          this.loading = false;
-        },
-        complete: () => {
-          this.loading = false;
-        }
-      });   
-
+        });   
+      }
     } else {
       this.isEmpty = true
     }
   }
+
   getStars(){
     this.userService.getStars(this.search).subscribe({
       next: (stars: any)  => {            
         if (stars) { 
-          this.starsError = false;        
-          this.stars = stars;
+          this.error = false;        
+          this.stars = stars.length;
+          this.storageService.setData((this.user.login).toLowerCase(), JSON.stringify(this.user))
+          this.storageService.setData((this.user.id).toString(), JSON.stringify(this.stars))
         }
       },
       error: (error:any) => {
-        this.starsError = true
+        this.error = true
         this.errorMessage = error;
       }
     });
   }
 }
-
-
-// submitName(){
-//   if(this.newUser == "") {
-//     localStorage.setItem('name-data', this.user.userName)
-//   }

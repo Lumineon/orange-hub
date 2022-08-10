@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, getTestBed, fakeAsync, flush } from '@angular/core/testing';
+import { ComponentFixture, TestBed, getTestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { Observable, of, throwError, EMPTY } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MockComponent } from 'ng-mocks';
@@ -6,10 +6,11 @@ import { HomeComponent } from './home.component';
 import { UserService } from 'src/app/core/services/user/user.service';
 import { UserComponent } from 'src/app/shared/components/user/user.component';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../../shared/components/button/button.component'
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingComponent } from '../../shared/components/loading/loading.component'
 import { User } from 'src/app/core/models/user';
+import { mockResponse, starsMockResponse } from '../../core/mocks/user-service/userMock'
+import { HttpErrorResponse } from '@angular/common/http';
 
 class MockUserService {
   getUser(): Observable<User> { 
@@ -34,7 +35,6 @@ describe('HomeComponent', () => {
       declarations: [ 
         HomeComponent, 
         MockComponent(UserComponent), 
-        MockComponent(ButtonComponent), 
         MockComponent(LoadingComponent) 
       ],
       providers: [
@@ -66,32 +66,29 @@ describe('HomeComponent', () => {
     expect(service.getStars).toBeTruthy();
    });
 
-  it(`should return user and stars data`, fakeAsync(() => {
-    const mockResponse: User = {
-        login: 'teste', 
-        id: 46164268, 
-        avatar_url: 'https://avatars.githubusercontent.com/u/46164268?v=4', 
-        name: 'teste', 
-        location: 'teste2', 
-        bio: 'lorem ipsum', 
-        followers: 1, 
-        following: 5
-    }
+  it('should call search function on form submit', fakeAsync( () => {
+    fixture.detectChanges();
+    spyOn(component, 'searchUser');
+    const form = fixture.debugElement.query(By.css('.home-form-container > form'));
+    form.triggerEventHandler('ngSubmit', null);
+    tick(); 
+    fixture.detectChanges();
+    expect(component.searchUser).toHaveBeenCalled();
+  }));
 
-    const starsMockResponse = [{
-      id: 201570219,
-      node_id: "MDEwOlJlcG9zaXRvcnkyMDE1NzAyMTk=",
-      name: "responsively-app",
-      full_name: "responsively-org/responsively-app",
-    },
-    {
-      id: 54346799,
-      node_id: "MDEwOlJlcG9zaXRvcnk1NDM0Njc5OQ==",
-      name: "public-apis",
-      full_name: "public-apis/public-apis",
-    }
-    ]
+  it('should call search function on submit button click', fakeAsync( () => {
+    fixture.detectChanges();
+    spyOn(component, 'searchUser');
     
+    const btn = fixture.debugElement.query(By.css('.home-button'));
+    btn.nativeElement.click();
+
+    tick(); 
+    fixture.detectChanges();
+    expect(component.searchUser).toHaveBeenCalled();
+  }));
+
+  it(`should return user and stars data`, fakeAsync(() => {
     spyOn(component, 'searchUser').and.callThrough();
     userServiceSpy = spyOn(userService, 'getUser').and.returnValue(of(mockResponse));
     starsServiceSpy = spyOn(userService, 'getStars').and.returnValue(of(starsMockResponse));
@@ -113,27 +110,26 @@ describe('HomeComponent', () => {
     flush();
   }));
 
-// it(`should return error message on error`, fakeAsync(() => {
-//     const errorResponse = {
-//       status: 400,
-//       message: 'Usuário não encontrado.'
-//     };
+it(`should return error message on user error`, fakeAsync(() => {
+    const errorResponse = new HttpErrorResponse({ status: 404, error: {}});
+    const errorContainer = fixture.debugElement.query(By.css('.error'));
     
-//     spyOn(component, 'searchUser').and.callThrough();
-//     userServiceSpy = spyOn(userService, 'getUser').and.returnValue(EMPTY);
-//     starsServiceSpy = spyOn(userService, 'getStars').and.returnValue(throwError(errorResponse));
-//     component.error = true;
+    spyOn(component, 'searchUser').and.callThrough();
+    userServiceSpy = spyOn(userService, 'getUser').and.returnValue(throwError(() => errorResponse));
 
-//     const button = fixture.nativeElement.querySelector('.home-button');
-//     button.click();
+    component.error = true;
+    component.errorMessage = errorResponse.message;
 
-//     component.searchUser();
-//     fixture.detectChanges();
+    component.search = 'user123';
+    const btn = fixture.debugElement.query(By.css('.home-button'));
+    btn.nativeElement.click();
 
-//     const error = fixture.nativeElement.querySelector('.error');
-//     console.log(component, errorResponse)
-//     expect(userServiceSpy).toHaveBeenCalledTimes(1);
-//     expect(starsServiceSpy).toHaveBeenCalledTimes(1);
-//     expect(error.textContent).toContain(errorResponse.message);
-//   }));
+    tick();
+    fixture.detectChanges();
+
+    const error = fixture.nativeElement.querySelector('.error');
+    expect(error.textContent).toContain(`Erro! Usuário não encontrado.`);
+    expect(component.error).toBe(true);
+    expect(errorContainer).toBeTrue
+  }));
 });

@@ -16,7 +16,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SelectComponent implements ControlValueAccessor {
   @Input() label!: string;
   @Input() options!: {value: string, name: string}[];
-  @Input() text!: string;
   public onChange = (_: any) => {};
   public onTouched = () => {};
   selectedIndex!: number;
