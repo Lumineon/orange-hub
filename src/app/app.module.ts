@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  
 import { UserService } from './core/services/user/user.service';
@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { LoadingModule } from './shared/components/loading/loading.module';
 import { ErrorCatchingInterceptor } from './core/interceptors/error-catching.interceptor';
+import { GlobalErrorHandlerService } from './core/services/global-error-handler/global-error-handler.service'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,7 @@ import { UserComponent } from './shared/components/user/user.component';
     RepositoryService, 
     DatePipe,
     LocalStorageService,
+    {provide: ErrorHandler, useClass: GlobalErrorHandlerService},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorCatchingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

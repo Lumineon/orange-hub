@@ -31,6 +31,7 @@
 
     .home-search-error-container{
         margin-top: 25px;
+        text-align: center;
         font-size: 20px;
     }
 
@@ -136,6 +137,7 @@
     .home-search-error-container{
         margin-top: 25px;
         font-size: 18px;
+        text-align: center;
     }
 
     .home-warning{

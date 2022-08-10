@@ -19,7 +19,7 @@
         <div class="home-search-error-container error" *ngIf="error">
             <strong>Erro! </strong>{{errorMessage}}</div>
     </div>
-    <div class="home-user-container">
+    <div class="home-user-container" *ngIf="!error">
         <app-user class="home-user-info" *ngIf="user" [user]="user" [stars]="stars"></app-user>
         <div class="home-user-repositories-link">
             <a *ngIf="user" routerLink="repository-results" [state]="{search}">Ir para página de repositórios</a>

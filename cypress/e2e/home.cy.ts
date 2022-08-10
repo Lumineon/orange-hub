@@ -14,7 +14,7 @@ describe('Orange Hub', () => {
       .type('Otaviohenrique')
       .should('have.value', 'Otaviohenrique')
 
-    cy.get('.btn').click()
+    cy.get('.home-button').click()
     cy.get('.home-user-info').should('have.length', 1)
 
     cy.request('https://api.github.com/users/Otaviohenrique').as('user')

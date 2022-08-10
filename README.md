@@ -21,6 +21,7 @@ Projeto criado com o intuito de aprofundar o conhecimento em Angular, testes uni
 * Navegador web (Chrome ou Firefox)
 * [Visual Studio Code](https://code.visualstudio.com/) ou outra IDE de sua preferência
 > Opcional mas recomendado: [Git](https://git-scm.com/)
+> Opcional mas recomendado: [Angular CLI](https://angular.io/cli) para rodar o projeto com comandos `ng`
 
 ## Instalação
 
@@ -34,17 +35,24 @@ Você pode fazer isso abrindo o Git e digitando o comando:
 
 ## Rodando a aplicação
 * Para rodar o servidor de desenvolvimento use o seguinte comando:
-``` ng serve```
+``` npm start``` ou ``` ng serve``` caso tenha o [Angular CLI](https://angular.io/cli) instalado
 * Para rodar o build, use:
-``` ng build```
+``` npm build``` ou ``` ng build``` caso tenha o [Angular CLI](https://angular.io/cli) instalado
 
 Se tudo ocorreu bem, você poderá ver a aplicação rodando em http://localhost:4200/
 
 ## Testes
 #### Unitários
-* Para rodar os testes unitários via [Karma](https://karma-runner.github.io) use `ng test`
+* Para rodar os testes unitários via [Karma](https://karma-runner.github.io) use `npm start` ou `ng test`
+Isso abrirá uma janela do seu navegador com o [Karma](https://karma-runner.github.io) e ele executará os testes unitários que foram criados.
+> Os testes unitários estão localizados dentro de cada componente do projeto. São marcados com a extensão `.spec.ts` e os resultados dos testes ficam disponíveis na própria janela do Karma.
+
 #### E2E
-* Para rodar os testes end-to-end use `ng e2e` ou `cypress:open` para rodar via [Cypress](https://www.cypress.io/)
+* Para rodar os testes end-to-end use `npm run e2e`. Caso tenha o [Cypress](https://www.cypress.io/) instalado, esse comando rodará o projeto localmente e abrirá uma janela no navegador escolhido com o Cypress
+Em seguida, clique em `E2E Testing` e clique na spec `home.cy.ts`
+* ou rode `ng e2e` caso tenha o [Angular CLI](https://angular.io/cli) instalado
+* ou rode `npm start` para rodar a aplicação e em seguida rode `npm cypress:open` ou até mesmo `npm cypress:run` para rodar via [Cypress](https://www.cypress.io/)
+> Os testes E2E estão localizados no seguinte caminho: `Cypress > e2e > home.cy.ts` e os resultados dos testes ficam disponíveis na própria janela do Cypress.
 
 ## Tecnologias utilizadas
 
@@ -53,6 +61,6 @@ Se tudo ocorreu bem, você poderá ver a aplicação rodando em http://localhost
 * [TypeScript](https://www.typescriptlang.org/)
 * [Github API](https://docs.github.com/en/rest)
 * [Jasmine](https://jasmine.github.io/)
-* [Karma]((https://karma-runner.github.io))
+* [Karma](https://karma-runner.github.io)
 * [Cypress](https://www.cypress.io/)
 * HTML

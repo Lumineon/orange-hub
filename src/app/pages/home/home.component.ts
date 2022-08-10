@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     if (this.search) {
       this.loading = true;
       this.isEmpty = false
-      const localStorageUserData = this.storageService.getData(this.search)
+      const localStorageUserData = this.storageService.getData(this.search.toLowerCase())
       if (Object.keys(localStorageUserData).length > 0) {
         const localStorageStarsData = this.storageService.getData(localStorageUserData.id)
         this.loading = false;
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
             }
           },
           error: (error:any) => {
+            this.loading = false;
             this.error = true;
             if (error.status === 404){
               this.errorMessage = 'Usuário não encontrado.';
@@ -50,7 +51,6 @@ export class HomeComponent implements OnInit {
             } else {
               this.errorMessage = error.message
             }
-            this.loading = false;
           },
           complete: () => {
             this.loading = false;

@@ -11,22 +11,21 @@
 
     .repository-error-container{
         font-size: 25px;
+        text-align: center;
     }
 
     .repository-owner-container{
         margin-bottom: 20px;
         display: flex;
-        position: relative;
-        width: 100%;
+        width: 88%;
         justify-content: center;
         align-items: center;
     }
 
     .repository-orderby-container {
-        position: absolute;
-        right: 15%;
         display: flex;
         align-items: center;
+        margin-left: auto;
     }
 
     .repository-orderby {
@@ -51,7 +50,7 @@
     .repository-info-container {
         display: flex;
         justify-content: space-between;
-        width: 71%;
+        width: 89%;
         margin-bottom: 20px;
         padding: 25px 20px;
         background-color: var(--orange);
@@ -93,22 +92,19 @@
 
     .repository-error-container{
         font-size: 18px;
+        text-align: center;
     }
 
     .repository-owner-container{
         margin-bottom: 20px;
         display: flex;
-        position: relative;
         width: 100%;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
     }
 
-    .repository-orderby-container {
-        position: absolute;
-        right: 15%;
-        display: flex;
-        align-items: center;
+    .repository-owner-container > h1{
+        text-align: center;
     }
 
     .repository-orderby-container > span {
