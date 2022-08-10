@@ -49,7 +49,7 @@ Isso abrirá uma janela do seu navegador com o [Karma](https://karma-runner.gith
 
 #### E2E
 * Para rodar os testes end-to-end use `npm run e2e`. Caso tenha o [Cypress](https://www.cypress.io/) instalado, esse comando rodará o projeto localmente e abrirá uma janela no navegador escolhido com o Cypress
-Em seguida, clique em `E2E Testing` e clique na spec `home.cy.ts`
+Em seguida, selecione o projeto e clique em `E2E Testing` e clique na spec `home.cy.ts`
 * ou rode `ng e2e` caso tenha o [Angular CLI](https://angular.io/cli) instalado
 * ou rode `npm start` para rodar a aplicação e em seguida rode `npm cypress:open` ou até mesmo `npm cypress:run` para rodar via [Cypress](https://www.cypress.io/)
 > Os testes E2E estão localizados no seguinte caminho: `Cypress > e2e > home.cy.ts` e os resultados dos testes ficam disponíveis na própria janela do Cypress.
